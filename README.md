@@ -5,10 +5,10 @@ This repository will be used for exploring the MIMIC-III and MIMIC-IV datasets w
 |Dataset|Description|Date|Comments|
 |---|---|---|---|
 |MIMIC-III|Critical care data for patients admitted to ICUs at the BIDMC|2001 - 2012|Haven't started exploring in this repo|
-|MIMIC-IV|Hospital and critical care data for patients admitted to the ED or ICU|2008 - 2019|Currently exploring|
+|MIMIC-IV|Hospital and critical care data for patients admitted to the ED or ICU|2008 - 2019|Currently exploring in the [exploration notebook](https://github.com/ufbfung/mimic/blob/main/exploration.ipynb)|
 |MIMIC-IV-ED|Emergency department data for individuals attending the ED|2011 - 2019|Haven't started exploring in this repo|
 |MIMIC-IV Waveforms (TBD)|This dataset has yet to be published.|?|Haven't started exploring in this repo|
-|MIMIC-CXR|Chest x-ray imaging and deidentified free-text radiology reports for patients admitted to the ED|2012 - 2016|Haven't started exploring in this repo|
+|MIMIC-CXR|Chest x-ray imaging and deidentified free-text radiology reports for patients admitted to the ED|2012 - 2016|Currently exploring in the [mimic_cxr notebook](https://github.com/ufbfung/mimic/blob/main/mimic_cxr.ipynb)|
 
 # Chest X-Ray Data
 One of the major changes from MIMIC-III to MIMIC-IV is the availability of Chest x-ray data. As noted from the ['What's new?'](https://mimic.mit.edu/docs/iv/about/whatsnew/) section of MIMIC, it is a new addition to MIMIC and the database is publicly available in the [MIMIC-CXR Database](https://physionet.org/content/mimic-cxr/2.0.0/). The *subject_id* identifer used in MIMIC-IV is the same *subject_id* used in the MIMIC-CXR database. Thus, all chest x-rays in MIMIC-CXR are linkable to patient stays in MIMIC-IV.

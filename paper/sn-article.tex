@@ -1,0 +1,277 @@
+\documentclass{article}
+
+\usepackage[final]{neurips_2019}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{hyperref}
+\usepackage{url}
+\usepackage{booktabs}
+\usepackage{amsfonts}
+\usepackage{nicefrac}
+\usepackage{microtype}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{lipsum}
+\usepackage[font=small,labelfont=bf]{caption}
+\usepackage{float}
+\usepackage{hyperref} 
+
+\title{Improving Prediction of Left Ventricle Ejection Fraction through 3D Reconstruction and Spatiotemporal Convolutional Neural Network Modeling} 
+\begin{document}
+
+
+\author{
+  Brian Fung \\
+  \email{brianfung@stanford.edu}\\
+  \And
+  Caitlin Kunchur \\
+  \email{ckunchur@stanford.edu}\\
+  \And
+  Javier Matos \\
+  \email{jematos@stanford.edu}\\
+  \And
+  Yan Min \\
+  \email{yanmin@stanford.edu}
+  % Examples of more authors
+%   \And
+%   Name \\
+%   Department of Computer Science \\
+%   Stanford University \\
+%   \texttt{name@stanford.edu}
+}
+
+%\author{\fnm{Brian Kwok-Wai} \sur{Fung}} %\email{brianfung@stanford.edu}
+
+%\author{\fnm{Caitlin Rita} \sur{Kunchur}} %\email{ckunchur@stanford.edu}
+%\equalcont{These authors contributed equally to this work.}
+
+%\author{\fnm{Javier Enrique Perez} \sur{Matos}} %\email{jematos@stanford.edu}
+%\equalcont{These authors contributed equally to this work.}
+
+%\author{\fnm{Yan Mia} \sur{Min}} %\email{yanmin@stanford.edu}
+%\equalcont{These authors contributed equally to this work.}
+
+%\affil*[1]{\orgdiv{Department}, \orgname{Organization}, \orgaddress{\street{Street}, \city{City}, \postcode{100190}, \state{State}, \country{Country}}}
+
+%\affil[2]{\orgdiv{Department}, \orgname{Organization}, \orgaddress{\street{Street}, \city{City}, \postcode{10587}, \state{State}, \country{Country}}}
+
+%\affil[3]{\orgdiv{Department}, \orgname{Organization}, \orgaddress{\street{Street}, \city{City}, \postcode{610101}, \state{State}, \country{Country}}}
+
+%%==================================%%
+%% sample for unstructured abstract %%
+%%==================================%%
+
+%\abstract{The abstract serves both as a general introduction to the topic and as a brief, non-technical summary of the main results and their implications. Authors are advised to check the author instructions for the journal they are submitting to for word limits and if structural elements like subheadings, citations, or equations are permitted.}
+
+%%================================%%
+%% Sample for structured abstract %%
+%%================================%%
+% \paragraph{Abstract}
+% \abstract{\textbf{Purpose:} The abstract serves both as a general introduction to the topic and as a brief, non-technical summary of the main results and their implications. The abstract must not include subheadings (unless expressly permitted in the journal's Instructions to Authors), equations or citations. As a guide the abstract should not exceed 200 words. Most journals do not set a hard limit however authors are advised to check the author instructions for the journal they are submitting to.
+% 
+% \textbf{Methods:} The abstract serves both as a general introduction to the topic and as a brief, non-technical summary of the main results and their implications. The abstract must not include subheadings (unless expressly permitted in the journal's Instructions to Authors), equations or citations. As a guide the abstract should not exceed 200 words. Most journals do not set a hard limit however authors are advised to check the author instructions for the journal they are submitting to.
+% 
+% \textbf{Results:} The abstract serves both as a general introduction to the topic and as a brief, non-technical summary of the main results and their implications. The abstract must not include subheadings (unless expressly permitted in the journal's Instructions to Authors), equations or citations. As a guide the abstract should not exceed 200 words. Most journals do not set a hard limit however authors are advised to check the author instructions for the journal they are submitting to.
+% 
+% \textbf{Conclusion:} The abstract serves both as a general introduction to the topic and as a brief, non-technical summary of the main results and their implications. The abstract must not include subheadings (unless expressly permitted in the journal's Instructions to Authors), equations or citations. As a guide the abstract should not exceed 200 words. Most journals do not set a hard limit however authors are advised to check the author instructions for the journal they are submitting to.}
+
+%\keywords{keyword1, Keyword2, Keyword3, Keyword4}
+
+%%\pacs[JEL Classification]{D8, H51}
+
+%%\pacs[MSC Classification]{35A01, 65L10, 65L12, 65L20, 65L70}
+
+\maketitle
+
+\section{Introduction}\label{sec1}
+
+\noindent
+Heart failure, a condition characterized by the progressive loss of the myocardium's ability to eject sufficient blood into the systemic circulation, contributes to 36 $\%$ of all cardiovascular disease-related deaths \cite{heartStats}. The American Heart Association (AHA) has classified heart failure into four stages, ranging from stage A, which is asymptomatic, to stage D, which is the most advanced. The evaluation of cardiac function and diagnosis of heart failure typically involve the use of echocardiography, which directly visualizes the heart's structure, size, and blood flow. Additionally, echocardiography enables the estimation of the left ventricular ejection fraction (EF), which measures the percentage of blood leaving the heart at the end of each systole and is commonly used to assess heart function. A normal heart's EF typically ranges from 50$\%$ to 70$\%$, and reduced EF values indicate varying degrees of myocardial damage.
+\\
+
+\noindent
+Accurate estimation of left ventricular EF is, hence, crucial in the diagnosis and treatment planning of heart failure. Various attempts have been made to estimate EF from echocardiography, including machine learning algorithms or visual approximation based on images of a single heartbeat. However, these approaches often result in high measurement variance, posing challenges in heart failure classification. Recent machine learning algorithms have shown promise in predicting EF using short video clips of echocardiographs. \cite{echonet1} These models consider the heartbeats over a brief period and use both spatial and temporal information to predict EF. Nevertheless, these models have limitations, including the fact that the video clips are from the same angle, providing only a 2D projection of a 3D volume of the left ventricle, which may introduce random noise or systemic bias in EF prediction.
+\\
+
+\noindent
+The main objective of our project is to explore various methods for improving EF prediction, including 1) utilizing multiple projection views to create a 3D volume reconstruction of the left ventricle from 2D video data and 2) exploring transformer units and multi-headed attention to capture the spatiotemporal relationship across frames in left ventricle video data. 
+\\
+
+\noindent 
+The overall rationale of our project is to reduce measurement variability of features from echocardiographs. Moreover, by incorporating these additional features, we hope to gain a more comprehensive understanding of the heart's structure and function, which will be valuable in improving diagnostic accuracy and facilitating and designing treatment and patient management plans.
+
+\section{Data}
+% \textbf{EchoNet-Dynamic} EchoNet-Dynamic consists of approximately 10,000 echocardiogram videos (apical 4 chamber view) captured during real clinical practice. Each video has a duration of about 30 seconds and is in AVI format with a resolution of 640x480 pixels. The dataset includes labeled measurements in CSV files, encompassing essential cardiac parameters such as ejection fraction, left ventricular volume at end-systole and end-diastole, as well as human expert tracings of the left ventricle. The dataset is divided into training (N = 7,465), validation (N = 1,288), and testing sets (N = 1,277).
+
+\textbf{EchoNet-Pediatric} Our study employs data from the EchoNet-Pediatric study \cite{echonet2}. it comprises a collection of echocardiogram videos with expert annotations. It consists of 7,643 videos from patients aged 0 to 18 years, offering 3.2K videos from an apical 4-chamber (A4C) view and 4.5k videos from a parasternal short axis (PSAX) view.  The annotations encompass measurements of the left ventricle, such as ejection fraction, left ventricular volume at end-systole and end-diastole, along with expert tracings. The dataset did not include an identifier that could be used to join both modalities on a per-patient basis, thus we created unique identifiers using the metadata available (EF, Weight, and Height). The final dataset includes 3.1k unique records with both PSAX and A4C. The data is split into training (N = 1,996), validation (N = 618), and testing sets (N = 324). 
+
+To get a better sense of the underlying distribution of the characteristics of patients in the pediatric cohort, we analyzed EF, weight, and height information stratified by sex, as seen in \textbf{Figure 1}. 
+
+\begin{figure} [H]
+  \centering
+\includegraphics[scale=0.45]{data_distribution.png}
+  \caption{Distribution of age, weight, height, and ejection fraction stratifed by sex in EchoNet-Pediatric dataset.}
+\end{figure}
+
+Roughly 57\% and 43\% of the patients are male and female, respectively. The age range is roughly uniform, with  teenagers (12-18) represented at a slightly higher rate. The majority of patients live in the normal range for ejection fraction rate ($\geq 55\%$). Roughly 14\% of patients exhibit "reduced" ejection fraction \cite{hf}.  
+
+% \textbf{Why both?} The utilization of both the EchoNet-Dynamic and EchoNet-Pediatric datasets has many benefits. The EchoNet-Dynamic dataset offers a comprehensive collection of echocardiogram videos from adult patients, providing diverse clinical scenarios and a broad representation of cardiac dynamics. On the other hand, the EchoNet-Pediatric dataset focuses specifically on pediatric patients, facilitating a detailed exploration of cardiac characteristics in this unique population. By combining these datasets, we gain access to a comprehensive understanding of left ventricular function across different age groups. The expert annotations and labeled measurements in both datasets serve as reliable references for training and evaluating AI models. Furthermore, the inclusion of pediatric-specific considerations allows for the development of robust and generalizable models that can aid in the analysis of echocardiograms for both adult and pediatric patients. 
+
+\section{Methods}\label{sec2}
+
+% \textbf{EchoNet as a Baseline} 
+
+% As baseline experiments, we ran the EchoNet-Dynamic segmentation algorithm which uses the Deeplabv3 architecture with a 50-layer residual net as its base and decomposed R2+1D with spatiotemporal convolutions\cite{echonet1}.   \\
+
+% The baseline for EF prediction of pediatric patients was the EchoNet-Ped algorithm, where the input data is 32-frame, 112-by-112 A4C view. xx add more 
+
+
+\noindent
+\textbf{3D Reconstruction}
+We opted for a simplified approach in our 3D reconstruction to model the left ventricle as an ellipsoid \cite{lvshape,echoautosegcnn} since our data set was limited to two views instead of the six standard views that were used by Rajan et. al \cite{rajan2016}. The 3D reconstruction was generated from a single cardiac cycle using the A4C and PSAX views. The algorithm consists of a six steps: 1) view linkage, 2) temporal registration, 3) cross-sectional shapes fitting, 4) ellipsoid fitting, 5) volume calculations, and 6) ejection fraction calculations.  The main algorithm takes three data files as an input: a merged dataset that links the A4C and PSAX views to a single patient and two files containing ground truth volume tracings of the left ventricle for the A4C and PSAX views, respectively.  For visual evaluation and algorithm development, the raw videos in AVI format were used as input, with the volume tracings used as an overlay. 
+
+To begin, we plotted the manually annotated volume tracing coordinates and applied polygon fill to create segmentation masks for A4C and PSAX views, respectively. We overlayed this with the original image to visualize the left ventricular segmentation, as seen in \textbf{Figure 2}. As shown, the shape of the PSAX view closely resembles that of a circle and the shape of the A4C view resembles that of an ellipse. Since the cross-sections of an ellipsoid are an ellipse and a circle, we can calculate the parameters needed to generate an ellipsoid.
+
+\begin{figure} [h]
+  \centering
+\includegraphics[scale=0.3]{segmentation-mask.png}
+  \caption{Masks generated based on expert volume tracing annotations (left: A4C, right: PSAX) }
+\end{figure}
+
+To guide our development of the 3D reconstruction algorithm, we additionally overlayed the diameter, major axis, and minor axis on our visual plot, as seen in \textbf{Figure 3}. Once the parameters were visually in alignment, we refactored the code to solely fit an ellipsoid. We maintained the initial code to allow visual inspection of our calculations. 
+
+\begin{figure} [H]
+  \centering
+  \includegraphics[scale=0.3]{calculated-mask.png}
+  \caption{A4C and PSAX fitted masks with calculated ellipsoid parameters. Frames in the left and right columns are captured during the end systolic and end diastolic stages, respectively.}
+\end{figure}
+
+
+The steps of the 3D reconstruction algorithm are as follows:
+
+1. Linking the A4C and PSAX echocardiography videos by patient and retrieving the frames (only two per video) that have manually annotated volume tracings corresponding to end diastolic and end systolic volume (not distinguished by data curator). 
+
+2. Splitting the volume tracings by stage (i.e. end of diastole or end of systole): We grouped the volume tracings by frame, calculated the area, and assigned the frame with the larger area as the EDV frame, as the volume of the heart is larger during diastole.  
+
+3. Fitting each view (i.e. PSAX or A4C) to its respective shape: Since the left ventricle mostly resembles a prolate ellipsoid\cite{lvshape,rajan2016}, we opted to model our 3D reconstruction as an ellipsoid. The cross-sections of an ellipsoid are a ellipse and circle for the A4C and PSAX views, respectively. Thus, we fit each of the views into its respective shape using the OpenCV video processing library \cite{opencv} and extracted the parameters required for fitting a 3D ellipsoid. The radius was calculated for the circle and the semi-major axis and semi-minor axis was calculated for the ellipsis. Each of these parameters were further stored into its respective stage in the cardiac cycle of diastole or systole to temporally align the two views.
+
+4. Fitting the ellipsoid: The parameters calculated from the previous step were used to fit an ellipsoid using the Matplotlib library \cite{matplotlib}. Two ellipsoids were fitted (\textbf{Figure 4}) and we grouped the parameters (i.e. radius, semi-major axis, semi-minor axis) by its stage in the cardiac cycle to temporally register the two views. 
+
+5. Calculating ejection fraction (EF): the last step involves calculation of the EF using the ellipsoid formula of $V=\frac{4}{3}\pi abc$ where a, b, and c represent the semi-major axis, semi-minor axis, and radius, respectively. The ejection fraction can then be calculated where $EF = 
+\frac{SV}{EDV} \cdot 100$. Since $SV = EDV - ESV$, we can calculate the EF by subtracting the volume for our two ellipsoids. 
+
+To evaluate the performance of the algorithm, the mean squared error (MSE) was used to compare the predicted ejection fraction with the ground truth ejection fraction for each patient. 
+
+\begin{figure} [H]
+  \centering
+  \includegraphics[scale=0.3]{final-ellipsoid.png}
+  \caption{Ellipsoids generated using the A4C and PSAX views
+for a single patient. The left and right ellipsoids represent the volume of the left ventricle at the end
+of diastole and at the end of
+systole, respectively.}
+\end{figure}
+
+\noindent\textbf{Ejection Prediction}
+The baseline for predicting EF in the pediatric patients is EchoNet-Peds, a spatiotemporal convolutional neural network (CNN), which takes an input of 32 frame 112 x 112 video of A4C view. In our experiment, we leverage information from both the A4C and PSAX view by aligning the two views according to the heart beat and concatenating the videos side-by-side, thus our input is 112 x 224. Using the same model, we experimented with different number of frames (4, 12, 26), to observe the performance of the model. To evaluate the performance of EF prediction, we use root-mean-square-error (RMSE) and receiver operating characteristic (ROC) curve with cutoff points of EF at 35 $\%$, 40 $\%$, 45$\%$, 50 $\%$. Finally, we also estimate the ROC curve on predicting reduced EF with probability estimated from logistic regressions. Here we use EF < 55 $\%$ as it is clinically defined for children.\cite{hf}
+
+The spatiotemporal CNN is borrowed implementation from Paluri et. al. \cite{stcnn}, the key architecture of which is the  2 + 1 D convolutional residual blocks for videos. It is composed of $M_i$ 2D convolutional filters of size $N_{i-1} \times t \times d \times d$ and $N_i$ temporal convolutional filters of size $M_i \times t \times 1 \times 1$. The hyperparameter $M_i$ is the dimension of the intermediate subspace, where the signal is projected between the spatial and temporal convolutions. We also convert the segmentation coordinates of the left ventricle from the original 112 x 112 video to the new dimension of 112 x 224. The model specs are included in the Appendix.
+
+\section{Results}\label{sec3}
+
+% \noindent\textbf{EchoNet as a baseline}
+% We successfully ran the EchoNet-Dynamic model to perform assessment of ejection fraction on a subset (n=3 videos) of the dataset. The predicted ejection fractions were 63, 53, and 51 for the three input videos.
+
+\noindent\textbf{3D Reconstruction}
+The 3D ellipsoids in \textbf{Figure 4} were generated using the A4C and PSAX views for a single patient. The ellipsoid on the left represents the volume of the left ventricle at the end of diastole and the ellipsoid on the right represents the volume of the left ventricle at the end of systole.  The mean squared error was 34562281.8.  Of note, of the 3,133 EF values predicted by the 3D reconstruction, there were 163 that were below 0. Due to the sensitivity of the mean squared error to outliers and the implausibility of an EF being less than 0, these values were all removed in favor of a more readable graph \textbf{Figure 5}. With values < 0 removed, the mean squared error also dropped from 34562281.8 to 249.5.
+
+\begin{figure} [H]
+  \centering
+  \includegraphics[scale=0.3]{3d-predict-outliers-removed.png}
+  \caption{Predicted EF from 3D Reconstruction vs. Actual EF with EF < 0 removed}
+\end{figure}
+
+\noindent\textbf{Ejection Prediction}
+
+The predicted EFs of the test set from each model are shown in \textbf{Figure 6}. The RMSE with respect to 4-frame, 12-frames, and 26-frame model are: 7.1 (6.3 - 8.0), 6.6 (6.12 - 7.21), and 5.6 (5.0 - 6.2). As the number of frame increases, the RMSE reduces. Visually, the scatter plot is "hugging" closer to the diagonal line as the number of frame increases.
+
+\begin{figure} [H]
+  \centering
+\includegraphics[scale=0.45]{ef_preds.png}
+  \caption{Predicted EF vs Actual EF for each model}
+\end{figure}
+
+The ROC curves for each model predicting four different EF cutoff points in the test set are summarized in \textbf{Figure 7}. All three models follow the same trend, namely, they are better at predicting low EF cutoff points than high EF cutoff points. Similar to the observation above, the 26-frames model is almost consistently better at predicting every cutoff point compared with the 4-frame and the 12-frame models. However, at predicting EF cutoff point of 50, the 12-frame model slightly outperforms the 24-frame model with a margin of 1.2$\%$.
+
+\begin{figure} [H]
+  \centering
+\includegraphics[scale=0.45]{roc_4cutoff.png}
+  \caption{ROC curve for each model at four EF cutoff points}
+\end{figure}
+
+Finally, in terms of predicting clinically defined reduced ejection (EF < 55$\%$) \cite{hf}, the results are shown in \textbf{Figure 8}. The best AUC we have achieve in the test set is 0.972 from the 26-frame model. Compared to the original EchoNet paper, which achieved an AUC of 0.950, we slightly outperform the original paper by a margin of 2.2$\%$. Moreover, the 12-frame model achieves an AUC of 0.965, which also slightly outperforms the original paper by 1.5 $\%$. 
+
+\begin{figure} [H]
+  \centering
+\includegraphics[scale=0.45]{reEF_preds.png}
+  \caption{ROC curve for each model at predicting reduced ejection (EF < 55$\%)$}
+\end{figure}
+
+\section{Discussion}\label{sec4}
+
+Assumption of left ventricular shape. Our decision to simplify the 3D reconstruction algorithm by modeling it after an ellipsoid likely resulted in the high MSE score. This was due in part to the limited number of views (i.e. A4C and PSAX) versus the six standard views defined by the American Society of Echocardiography\cite{echoguidelines} and used by other 3D reconstruction algorithms\cite{pix2voxx,echoautosegcnn}. As mentioned earlier, the normal shape of the left ventricle is a prolate ellipsoid\cite{lvshape,rajan2016}, but patients with left ventricular dysfunction may have left ventricles that are more globular or spherical. The former typically represents more of the onset of left ventricular dysfunction and the latter of dilated cardiomyopathy\cite{rajan2016}. Since our data set had patients with normal and abnormal ejection fractions, this likely reflected in our MSE score. Further, the shape of the left ventricle, even if normal, isn't a perfect ellipsoid and thus our usage of an ellipsoid and circle likely increased the error in our prediction. 
+
+ Upon plotting our results for predicted vs. actual EF values, it became apparent that our 3D reconstruction algorithm was predicting incorrect results, as the values were orders of magnitudes different and were also all negative, which would be implausible for an ejection fraction. Since there were only 163 values of the 3,133 (5.2\%) that were below 0, we removed them in favor of having a readable graph and mean squared error score. These findings suggest our 3D algorithm could be further optimized. 
+
+In our study, we combined two views (A4C and PSAX) to predict the EF, and the results is comparable (slightly outperforming) with the original paper, even with reduced frame sampling. The original paper sampled 32 frames; here we only sampled 4, 12, and 26 frames. We are not able to try the 32-frame model due to GPU RAM limits (see proof in appendix). According to our experiments, introducing multiple views of a 3D video may compensate the low frame number sampled for the training. This could be pragmatic when having limited GPU RAM access. 
+
+One technical caveat for EF prediction is: in our model, we aligned echo-cardiographs of A4C and PSAX views based on the starting point of the heart beat for each patient. However, the heart beats from A4C and PSAX views are not from the same exact heart beat, as the ultrasound device can only take one view at a time. This might introduce some unwarranted systematic bias to the training data.
+
+
+
+\section{Conclusions}\label{sec5}
+Comparing the 3D reconstruction approach and the concatenated video approach in predicting the EF, it is evident that the concatenated video approach has better performance. However, it could be interesting to gather an every greater variety of views of the heart to conduct more precise 3D reconstruction and then combine that model with the spatiotemporal CNN.
+
+Our spatiotemporal CNN model includes two views of the heart ultrasound and is able to achieve similar (slightly better) results compared to the original paper, even at low number of frames. This indicates, in general, that including additional angles of a 3D object may increase the performance of downstream tasks.
+
+In the future, an additional experiment we hope to implement,  given the inherently sparse availability of ground truth volume tracing data, is exploring semi-supervised methods for LV segmentation such as co-training, running segmentation models on A4C and PSAX views separately and using agreement between their predictions for fine-tuning. Additionally, we could implement self-supervised methods e.g. using inpainting as a pretext model for improved capture of the underlying ventricular structure and other anatomical features within the heart. 
+
+We also hope to explore extracting two other important features from the echocardiograph: the myocardium thickening of the left ventricle during each heart beat, and the mitral valve leaflets movement, particularly the distance between the e-point of the anterior leaflet to the interventricular septum. 
+
+\section{Code \& Data Availability}\label{sec5}
+
+All code related to this research can be found in this
+repository:  \href{https://github.com/ckunchur/cs235-project}{https://github.com/ckunchur/cs235-project}
+
+\section{Appendix}
+\begin{figure} [H]
+\begin{center}
+\begin{tabular}{ |c c| }
+ \hline
+ \multicolumn{2}{|c|}{Model Specs} \\
+ \hline
+ Number of epochs & 45 \\ 
+ Learning rate & 1e-4 \\  
+ Weight decay & 1e-4 \\   
+ Learning rate step period & 15 \\
+ Batch size & 8 \\
+ \hline
+\end{tabular}
+\end{center}
+  \caption{Spatiotemporal CNN Model Specs}
+\end{figure}
+
+\begin{figure} [H]
+  \centering
+  \includegraphics[scale=0.1]{kmn.jpg}
+  \caption{Proof of GPU almost crashing while running the 26-frame model}
+\end{figure}
+
+
+\newpage
+\bibliographystyle{unsrt}
+\bibliography{references}
+
+
+
+\end{document}

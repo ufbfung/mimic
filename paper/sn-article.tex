@@ -1,73 +1,136 @@
-\documentclass{article}
+%Version 2.1 April 2023
+% See section 11 of the User Manual for version history
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%                                                                 %%
+%% Please do not use \input{...} to include other tex files.       %%
+%% Submit your LaTeX manuscript as one .tex document.              %%
+%%                                                                 %%
+%% All additional figures and files should be attached             %%
+%% separately and not embedded in the \TeX\ document itself.       %%
+%%                                                                 %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\usepackage[final]{neurips_2019}
+%%\documentclass[referee,sn-basic]{sn-jnl}% referee option is meant for double line spacing
 
-\usepackage[utf8]{inputenc}
-\usepackage[T1]{fontenc}
-\usepackage{hyperref}
-\usepackage{url}
-\usepackage{booktabs}
-\usepackage{amsfonts}
-\usepackage{nicefrac}
-\usepackage{microtype}
-\usepackage{graphicx}
-\usepackage{xcolor}
-\usepackage{lipsum}
-\usepackage[font=small,labelfont=bf]{caption}
-\usepackage{float}
-\usepackage{hyperref} 
+%%=======================================================%%
+%% to print line numbers in the margin use lineno option %%
+%%=======================================================%%
 
-\title{Improving Prediction of Left Ventricle Ejection Fraction through 3D Reconstruction and Spatiotemporal Convolutional Neural Network Modeling} 
+%%\documentclass[lineno,sn-basic]{sn-jnl}% Basic Springer Nature Reference Style/Chemistry Reference Style
+
+%%======================================================%%
+%% to compile with pdflatex/xelatex use pdflatex option %%
+%%======================================================%%
+
+%%\documentclass[pdflatex,sn-basic]{sn-jnl}% Basic Springer Nature Reference Style/Chemistry Reference Style
+
+
+%%Note: the following reference styles support Namedate and Numbered referencing. By default the style follows the most common style. To switch between the options you can add or remove Numbered in the optional parenthesis. 
+%%The option is available for: sn-basic.bst, sn-vancouver.bst, sn-chicago.bst, sn-mathphys.bst. %  
+ 
+%%\documentclass[sn-nature]{sn-jnl}% Style for submissions to Nature Portfolio journals
+%%\documentclass[sn-basic]{sn-jnl}% Basic Springer Nature Reference Style/Chemistry Reference Style
+\documentclass[sn-mathphys,Numbered]{sn-jnl}% Math and Physical Sciences Reference Style
+%%\documentclass[sn-aps]{sn-jnl}% American Physical Society (APS) Reference Style
+%%\documentclass[sn-vancouver,Numbered]{sn-jnl}% Vancouver Reference Style
+%%\documentclass[sn-apa]{sn-jnl}% APA Reference Style 
+%%\documentclass[sn-chicago]{sn-jnl}% Chicago-based Humanities Reference Style
+%%\documentclass[default]{sn-jnl}% Default
+%%\documentclass[default,iicol]{sn-jnl}% Default with double column layout
+
+%%%% Standard Packages
+%%<additional latex packages if required can be included here>
+
+\usepackage{graphicx}%
+\usepackage{multirow}%
+\usepackage{amsmath,amssymb,amsfonts}%
+\usepackage{amsthm}%
+\usepackage{mathrsfs}%
+\usepackage[title]{appendix}%
+\usepackage{xcolor}%
+\usepackage{textcomp}%
+\usepackage{manyfoot}%
+\usepackage{booktabs}%
+\usepackage{algorithm}%
+\usepackage{algorithmicx}%
+\usepackage{algpseudocode}%
+\usepackage{listings}%
+%%%%
+
+%%%%%=============================================================================%%%%
+%%%%  Remarks: This template is provided to aid authors with the preparation
+%%%%  of original research articles intended for submission to journals published 
+%%%%  by Springer Nature. The guidance has been prepared in partnership with 
+%%%%  production teams to conform to Springer Nature technical requirements. 
+%%%%  Editorial and presentation requirements differ among journal portfolios and 
+%%%%  research disciplines. You may find sections in this template are irrelevant 
+%%%%  to your work and are empowered to omit any such section if allowed by the 
+%%%%  journal you intend to submit to. The submission guidelines and policies 
+%%%%  of the journal take precedence. A detailed User Manual is available in the 
+%%%%  template package for technical guidance.
+%%%%%=============================================================================%%%%
+
+%\jyear{2021}%
+
+%% as per the requirement new theorem styles can be included as shown below
+\theoremstyle{thmstyleone}%
+\newtheorem{theorem}{Theorem}%  meant for continuous numbers
+%%\newtheorem{theorem}{Theorem}[section]% meant for sectionwise numbers
+%% optional argument [theorem] produces theorem numbering sequence instead of independent numbers for Proposition
+\newtheorem{proposition}[theorem]{Proposition}% 
+%%\newtheorem{proposition}{Proposition}% to get separate numbers for theorem and proposition etc.
+
+\theoremstyle{thmstyletwo}%
+\newtheorem{example}{Example}%
+\newtheorem{remark}{Remark}%
+
+\theoremstyle{thmstylethree}%
+\newtheorem{definition}{Definition}%
+
+\raggedbottom
+%%\unnumbered% uncomment this for unnumbered level heads
+
 \begin{document}
 
+\title[Article Title]{Automated Classification of Chest X-rays using ResNet-based CNNs: Evaluating Performance with the MIMIC-IV CXR Dataset}
 
-\author{
-  Brian Fung \\
-  \email{brianfung@stanford.edu}\\
-  \And
-  Caitlin Kunchur \\
-  \email{ckunchur@stanford.edu}\\
-  \And
-  Javier Matos \\
-  \email{jematos@stanford.edu}\\
-  \And
-  Yan Min \\
-  \email{yanmin@stanford.edu}
-  % Examples of more authors
-%   \And
-%   Name \\
-%   Department of Computer Science \\
-%   Stanford University \\
-%   \texttt{name@stanford.edu}
-}
+%%=============================================================%%
+%% Prefix	-> \pfx{Dr}
+%% GivenName	-> \fnm{Joergen W.}
+%% Particle	-> \spfx{van der} -> surname prefix
+%% FamilyName	-> \sur{Ploeg}
+%% Suffix	-> \sfx{IV}
+%% NatureName	-> \tanm{Poet Laureate} -> Title after name
+%% Degrees	-> \dgr{MSc, PhD}
+%% \author*[1,2]{\pfx{Dr} \fnm{Joergen W.} \spfx{van der} \sur{Ploeg} \sfx{IV} \tanm{Poet Laureate} 
+%%                 \dgr{MSc, PhD}}\email{iauthor@gmail.com}
+%%=============================================================%%
 
-%\author{\fnm{Brian Kwok-Wai} \sur{Fung}} %\email{brianfung@stanford.edu}
+\author*[1]{\fnm{Brian} \sur{Fung}}\email{brianfung@verily.com}
 
-%\author{\fnm{Caitlin Rita} \sur{Kunchur}} %\email{ckunchur@stanford.edu}
-%\equalcont{These authors contributed equally to this work.}
+%% \author[2,3]{\fnm{Second} \sur{Author}}\email{iiauthor@gmail.com}
+%% \equalcont{These authors contributed equally to this work.}
 
-%\author{\fnm{Javier Enrique Perez} \sur{Matos}} %\email{jematos@stanford.edu}
-%\equalcont{These authors contributed equally to this work.}
+%% \author[1,2]{\fnm{Third} \sur{Author}}\email{iiiauthor@gmail.com}
+%% \equalcont{These authors contributed equally to this work.}
 
-%\author{\fnm{Yan Mia} \sur{Min}} %\email{yanmin@stanford.edu}
-%\equalcont{These authors contributed equally to this work.}
+\affil*[1]{\orgdiv{Clinical Informatics}, \orgname{Verily}, \orgaddress{\street{Street}, \city{South San Fran}, \postcode{100190}, \state{CA}, \country{USA}}}
 
-%\affil*[1]{\orgdiv{Department}, \orgname{Organization}, \orgaddress{\street{Street}, \city{City}, \postcode{100190}, \state{State}, \country{Country}}}
+%% \affil[2]{\orgdiv{Department}, \orgname{Organization}, \orgaddress{\street{Street}, \city{City}, \postcode{10587}, \state{State}, \country{Country}}}
 
-%\affil[2]{\orgdiv{Department}, \orgname{Organization}, \orgaddress{\street{Street}, \city{City}, \postcode{10587}, \state{State}, \country{Country}}}
-
-%\affil[3]{\orgdiv{Department}, \orgname{Organization}, \orgaddress{\street{Street}, \city{City}, \postcode{610101}, \state{State}, \country{Country}}}
+%% \affil[3]{\orgdiv{Department}, \orgname{Organization}, \orgaddress{\street{Street}, \city{City}, \postcode{610101}, \state{State}, \country{Country}}}
 
 %%==================================%%
 %% sample for unstructured abstract %%
 %%==================================%%
 
-%\abstract{The abstract serves both as a general introduction to the topic and as a brief, non-technical summary of the main results and their implications. Authors are advised to check the author instructions for the journal they are submitting to for word limits and if structural elements like subheadings, citations, or equations are permitted.}
+\abstract{The abstract serves both as a general introduction to the topic and as a brief, non-technical summary of the main results and their implications. Authors are advised to check the author instructions for the journal they are submitting to for word limits and if structural elements like subheadings, citations, or equations are permitted.}
 
 %%================================%%
 %% Sample for structured abstract %%
 %%================================%%
-% \paragraph{Abstract}
+
 % \abstract{\textbf{Purpose:} The abstract serves both as a general introduction to the topic and as a brief, non-technical summary of the main results and their implications. The abstract must not include subheadings (unless expressly permitted in the journal's Instructions to Authors), equations or citations. As a guide the abstract should not exceed 200 words. Most journals do not set a hard limit however authors are advised to check the author instructions for the journal they are submitting to.
 % 
 % \textbf{Methods:} The abstract serves both as a general introduction to the topic and as a brief, non-technical summary of the main results and their implications. The abstract must not include subheadings (unless expressly permitted in the journal's Instructions to Authors), equations or citations. As a guide the abstract should not exceed 200 words. Most journals do not set a hard limit however authors are advised to check the author instructions for the journal they are submitting to.
@@ -76,7 +139,7 @@
 % 
 % \textbf{Conclusion:} The abstract serves both as a general introduction to the topic and as a brief, non-technical summary of the main results and their implications. The abstract must not include subheadings (unless expressly permitted in the journal's Instructions to Authors), equations or citations. As a guide the abstract should not exceed 200 words. Most journals do not set a hard limit however authors are advised to check the author instructions for the journal they are submitting to.}
 
-%\keywords{keyword1, Keyword2, Keyword3, Keyword4}
+\keywords{deep learning, automatic classification, chest x-rays, ResNet, Convolutional Neural Networks, CNN}
 
 %%\pacs[JEL Classification]{D8, H51}
 
@@ -86,192 +149,484 @@
 
 \section{Introduction}\label{sec1}
 
-\noindent
-Heart failure, a condition characterized by the progressive loss of the myocardium's ability to eject sufficient blood into the systemic circulation, contributes to 36 $\%$ of all cardiovascular disease-related deaths \cite{heartStats}. The American Heart Association (AHA) has classified heart failure into four stages, ranging from stage A, which is asymptomatic, to stage D, which is the most advanced. The evaluation of cardiac function and diagnosis of heart failure typically involve the use of echocardiography, which directly visualizes the heart's structure, size, and blood flow. Additionally, echocardiography enables the estimation of the left ventricular ejection fraction (EF), which measures the percentage of blood leaving the heart at the end of each systole and is commonly used to assess heart function. A normal heart's EF typically ranges from 50$\%$ to 70$\%$, and reduced EF values indicate varying degrees of myocardial damage.
-\\
+The Introduction section, of referenced text \cite{bib1} expands on the background of the work (some overlap with the Abstract is acceptable). The introduction should not include subheadings.
 
-\noindent
-Accurate estimation of left ventricular EF is, hence, crucial in the diagnosis and treatment planning of heart failure. Various attempts have been made to estimate EF from echocardiography, including machine learning algorithms or visual approximation based on images of a single heartbeat. However, these approaches often result in high measurement variance, posing challenges in heart failure classification. Recent machine learning algorithms have shown promise in predicting EF using short video clips of echocardiographs. \cite{echonet1} These models consider the heartbeats over a brief period and use both spatial and temporal information to predict EF. Nevertheless, these models have limitations, including the fact that the video clips are from the same angle, providing only a 2D projection of a 3D volume of the left ventricle, which may introduce random noise or systemic bias in EF prediction.
-\\
+Springer Nature does not impose a strict layout as standard however authors are advised to check the individual requirements for the journal they are planning to submit to as there may be journal-level preferences. When preparing your text please also be aware that some stylistic choices are not supported in full text XML (publication version), including coloured font. These will not be replicated in the typeset article if it is accepted. 
 
-\noindent
-The main objective of our project is to explore various methods for improving EF prediction, including 1) utilizing multiple projection views to create a 3D volume reconstruction of the left ventricle from 2D video data and 2) exploring transformer units and multi-headed attention to capture the spatiotemporal relationship across frames in left ventricle video data. 
-\\
+\section{Results}\label{sec2}
 
-\noindent 
-The overall rationale of our project is to reduce measurement variability of features from echocardiographs. Moreover, by incorporating these additional features, we hope to gain a more comprehensive understanding of the heart's structure and function, which will be valuable in improving diagnostic accuracy and facilitating and designing treatment and patient management plans.
+Sample body text. Sample body text. Sample body text. Sample body text. Sample body text. Sample body text. Sample body text. Sample body text.
 
-\section{Data}
-% \textbf{EchoNet-Dynamic} EchoNet-Dynamic consists of approximately 10,000 echocardiogram videos (apical 4 chamber view) captured during real clinical practice. Each video has a duration of about 30 seconds and is in AVI format with a resolution of 640x480 pixels. The dataset includes labeled measurements in CSV files, encompassing essential cardiac parameters such as ejection fraction, left ventricular volume at end-systole and end-diastole, as well as human expert tracings of the left ventricle. The dataset is divided into training (N = 7,465), validation (N = 1,288), and testing sets (N = 1,277).
+\section{This is an example for first level head---section head}\label{sec3}
 
-\textbf{EchoNet-Pediatric} Our study employs data from the EchoNet-Pediatric study \cite{echonet2}. it comprises a collection of echocardiogram videos with expert annotations. It consists of 7,643 videos from patients aged 0 to 18 years, offering 3.2K videos from an apical 4-chamber (A4C) view and 4.5k videos from a parasternal short axis (PSAX) view.  The annotations encompass measurements of the left ventricle, such as ejection fraction, left ventricular volume at end-systole and end-diastole, along with expert tracings. The dataset did not include an identifier that could be used to join both modalities on a per-patient basis, thus we created unique identifiers using the metadata available (EF, Weight, and Height). The final dataset includes 3.1k unique records with both PSAX and A4C. The data is split into training (N = 1,996), validation (N = 618), and testing sets (N = 324). 
+\subsection{This is an example for second level head---subsection head}\label{subsec2}
 
-To get a better sense of the underlying distribution of the characteristics of patients in the pediatric cohort, we analyzed EF, weight, and height information stratified by sex, as seen in \textbf{Figure 1}. 
+\subsubsection{This is an example for third level head---subsubsection head}\label{subsubsec2}
 
-\begin{figure} [H]
-  \centering
-\includegraphics[scale=0.45]{data_distribution.png}
-  \caption{Distribution of age, weight, height, and ejection fraction stratifed by sex in EchoNet-Pediatric dataset.}
-\end{figure}
+Sample body text. Sample body text. Sample body text. Sample body text. Sample body text. Sample body text. Sample body text. Sample body text. 
 
-Roughly 57\% and 43\% of the patients are male and female, respectively. The age range is roughly uniform, with  teenagers (12-18) represented at a slightly higher rate. The majority of patients live in the normal range for ejection fraction rate ($\geq 55\%$). Roughly 14\% of patients exhibit "reduced" ejection fraction \cite{hf}.  
+\section{Equations}\label{sec4}
 
-% \textbf{Why both?} The utilization of both the EchoNet-Dynamic and EchoNet-Pediatric datasets has many benefits. The EchoNet-Dynamic dataset offers a comprehensive collection of echocardiogram videos from adult patients, providing diverse clinical scenarios and a broad representation of cardiac dynamics. On the other hand, the EchoNet-Pediatric dataset focuses specifically on pediatric patients, facilitating a detailed exploration of cardiac characteristics in this unique population. By combining these datasets, we gain access to a comprehensive understanding of left ventricular function across different age groups. The expert annotations and labeled measurements in both datasets serve as reliable references for training and evaluating AI models. Furthermore, the inclusion of pediatric-specific considerations allows for the development of robust and generalizable models that can aid in the analysis of echocardiograms for both adult and pediatric patients. 
+Equations in \LaTeX\ can either be inline or on-a-line by itself (``display equations''). For
+inline equations use the \verb+$...$+ commands. E.g.: The equation
+$H\psi = E \psi$ is written via the command \verb+$H \psi = E \psi$+.
 
-\section{Methods}\label{sec2}
+For display equations (with auto generated equation numbers)
+one can use the equation or align environments:
+\begin{equation}
+\|\tilde{X}(k)\|^2 \leq\frac{\sum\limits_{i=1}^{p}\left\|\tilde{Y}_i(k)\right\|^2+\sum\limits_{j=1}^{q}\left\|\tilde{Z}_j(k)\right\|^2 }{p+q}.\label{eq1}
+\end{equation}
+where,
+\begin{align}
+D_\mu &=  \partial_\mu - ig \frac{\lambda^a}{2} A^a_\mu \nonumber \\
+F^a_{\mu\nu} &= \partial_\mu A^a_\nu - \partial_\nu A^a_\mu + g f^{abc} A^b_\mu A^a_\nu \label{eq2}
+\end{align}
+Notice the use of \verb+\nonumber+ in the align environment at the end
+of each line, except the last, so as not to produce equation numbers on
+lines where no equation numbers are required. The \verb+\label{}+ command
+should only be used at the last line of an align environment where
+\verb+\nonumber+ is not used.
+\begin{equation}
+Y_\infty = \left( \frac{m}{\textrm{GeV}} \right)^{-3}
+    \left[ 1 + \frac{3 \ln(m/\textrm{GeV})}{15}
+    + \frac{\ln(c_2/5)}{15} \right]
+\end{equation}
+The class file also supports the use of \verb+\mathbb{}+, \verb+\mathscr{}+ and
+\verb+\mathcal{}+ commands. As such \verb+\mathbb{R}+, \verb+\mathscr{R}+
+and \verb+\mathcal{R}+ produces $\mathbb{R}$, $\mathscr{R}$ and $\mathcal{R}$
+respectively (refer Subsubsection~\ref{subsubsec2}).
 
-% \textbf{EchoNet as a Baseline} 
+\section{Tables}\label{sec5}
 
-% As baseline experiments, we ran the EchoNet-Dynamic segmentation algorithm which uses the Deeplabv3 architecture with a 50-layer residual net as its base and decomposed R2+1D with spatiotemporal convolutions\cite{echonet1}.   \\
+Tables can be inserted via the normal table and tabular environment. To put
+footnotes inside tables you should use \verb+\footnotetext[]{...}+ tag.
+The footnote appears just below the table itself (refer Tables~\ref{tab1} and \ref{tab2}). 
+For the corresponding footnotemark use \verb+\footnotemark[...]+
 
-% The baseline for EF prediction of pediatric patients was the EchoNet-Ped algorithm, where the input data is 32-frame, 112-by-112 A4C view. xx add more 
-
-
-\noindent
-\textbf{3D Reconstruction}
-We opted for a simplified approach in our 3D reconstruction to model the left ventricle as an ellipsoid \cite{lvshape,echoautosegcnn} since our data set was limited to two views instead of the six standard views that were used by Rajan et. al \cite{rajan2016}. The 3D reconstruction was generated from a single cardiac cycle using the A4C and PSAX views. The algorithm consists of a six steps: 1) view linkage, 2) temporal registration, 3) cross-sectional shapes fitting, 4) ellipsoid fitting, 5) volume calculations, and 6) ejection fraction calculations.  The main algorithm takes three data files as an input: a merged dataset that links the A4C and PSAX views to a single patient and two files containing ground truth volume tracings of the left ventricle for the A4C and PSAX views, respectively.  For visual evaluation and algorithm development, the raw videos in AVI format were used as input, with the volume tracings used as an overlay. 
-
-To begin, we plotted the manually annotated volume tracing coordinates and applied polygon fill to create segmentation masks for A4C and PSAX views, respectively. We overlayed this with the original image to visualize the left ventricular segmentation, as seen in \textbf{Figure 2}. As shown, the shape of the PSAX view closely resembles that of a circle and the shape of the A4C view resembles that of an ellipse. Since the cross-sections of an ellipsoid are an ellipse and a circle, we can calculate the parameters needed to generate an ellipsoid.
-
-\begin{figure} [h]
-  \centering
-\includegraphics[scale=0.3]{segmentation-mask.png}
-  \caption{Masks generated based on expert volume tracing annotations (left: A4C, right: PSAX) }
-\end{figure}
-
-To guide our development of the 3D reconstruction algorithm, we additionally overlayed the diameter, major axis, and minor axis on our visual plot, as seen in \textbf{Figure 3}. Once the parameters were visually in alignment, we refactored the code to solely fit an ellipsoid. We maintained the initial code to allow visual inspection of our calculations. 
-
-\begin{figure} [H]
-  \centering
-  \includegraphics[scale=0.3]{calculated-mask.png}
-  \caption{A4C and PSAX fitted masks with calculated ellipsoid parameters. Frames in the left and right columns are captured during the end systolic and end diastolic stages, respectively.}
-\end{figure}
-
-
-The steps of the 3D reconstruction algorithm are as follows:
-
-1. Linking the A4C and PSAX echocardiography videos by patient and retrieving the frames (only two per video) that have manually annotated volume tracings corresponding to end diastolic and end systolic volume (not distinguished by data curator). 
-
-2. Splitting the volume tracings by stage (i.e. end of diastole or end of systole): We grouped the volume tracings by frame, calculated the area, and assigned the frame with the larger area as the EDV frame, as the volume of the heart is larger during diastole.  
-
-3. Fitting each view (i.e. PSAX or A4C) to its respective shape: Since the left ventricle mostly resembles a prolate ellipsoid\cite{lvshape,rajan2016}, we opted to model our 3D reconstruction as an ellipsoid. The cross-sections of an ellipsoid are a ellipse and circle for the A4C and PSAX views, respectively. Thus, we fit each of the views into its respective shape using the OpenCV video processing library \cite{opencv} and extracted the parameters required for fitting a 3D ellipsoid. The radius was calculated for the circle and the semi-major axis and semi-minor axis was calculated for the ellipsis. Each of these parameters were further stored into its respective stage in the cardiac cycle of diastole or systole to temporally align the two views.
-
-4. Fitting the ellipsoid: The parameters calculated from the previous step were used to fit an ellipsoid using the Matplotlib library \cite{matplotlib}. Two ellipsoids were fitted (\textbf{Figure 4}) and we grouped the parameters (i.e. radius, semi-major axis, semi-minor axis) by its stage in the cardiac cycle to temporally register the two views. 
-
-5. Calculating ejection fraction (EF): the last step involves calculation of the EF using the ellipsoid formula of $V=\frac{4}{3}\pi abc$ where a, b, and c represent the semi-major axis, semi-minor axis, and radius, respectively. The ejection fraction can then be calculated where $EF = 
-\frac{SV}{EDV} \cdot 100$. Since $SV = EDV - ESV$, we can calculate the EF by subtracting the volume for our two ellipsoids. 
-
-To evaluate the performance of the algorithm, the mean squared error (MSE) was used to compare the predicted ejection fraction with the ground truth ejection fraction for each patient. 
-
-\begin{figure} [H]
-  \centering
-  \includegraphics[scale=0.3]{final-ellipsoid.png}
-  \caption{Ellipsoids generated using the A4C and PSAX views
-for a single patient. The left and right ellipsoids represent the volume of the left ventricle at the end
-of diastole and at the end of
-systole, respectively.}
-\end{figure}
-
-\noindent\textbf{Ejection Prediction}
-The baseline for predicting EF in the pediatric patients is EchoNet-Peds, a spatiotemporal convolutional neural network (CNN), which takes an input of 32 frame 112 x 112 video of A4C view. In our experiment, we leverage information from both the A4C and PSAX view by aligning the two views according to the heart beat and concatenating the videos side-by-side, thus our input is 112 x 224. Using the same model, we experimented with different number of frames (4, 12, 26), to observe the performance of the model. To evaluate the performance of EF prediction, we use root-mean-square-error (RMSE) and receiver operating characteristic (ROC) curve with cutoff points of EF at 35 $\%$, 40 $\%$, 45$\%$, 50 $\%$. Finally, we also estimate the ROC curve on predicting reduced EF with probability estimated from logistic regressions. Here we use EF < 55 $\%$ as it is clinically defined for children.\cite{hf}
-
-The spatiotemporal CNN is borrowed implementation from Paluri et. al. \cite{stcnn}, the key architecture of which is the  2 + 1 D convolutional residual blocks for videos. It is composed of $M_i$ 2D convolutional filters of size $N_{i-1} \times t \times d \times d$ and $N_i$ temporal convolutional filters of size $M_i \times t \times 1 \times 1$. The hyperparameter $M_i$ is the dimension of the intermediate subspace, where the signal is projected between the spatial and temporal convolutions. We also convert the segmentation coordinates of the left ventricle from the original 112 x 112 video to the new dimension of 112 x 224. The model specs are included in the Appendix.
-
-\section{Results}\label{sec3}
-
-% \noindent\textbf{EchoNet as a baseline}
-% We successfully ran the EchoNet-Dynamic model to perform assessment of ejection fraction on a subset (n=3 videos) of the dataset. The predicted ejection fractions were 63, 53, and 51 for the three input videos.
-
-\noindent\textbf{3D Reconstruction}
-The 3D ellipsoids in \textbf{Figure 4} were generated using the A4C and PSAX views for a single patient. The ellipsoid on the left represents the volume of the left ventricle at the end of diastole and the ellipsoid on the right represents the volume of the left ventricle at the end of systole.  The mean squared error was 34562281.8.  Of note, of the 3,133 EF values predicted by the 3D reconstruction, there were 163 that were below 0. Due to the sensitivity of the mean squared error to outliers and the implausibility of an EF being less than 0, these values were all removed in favor of a more readable graph \textbf{Figure 5}. With values < 0 removed, the mean squared error also dropped from 34562281.8 to 249.5.
-
-\begin{figure} [H]
-  \centering
-  \includegraphics[scale=0.3]{3d-predict-outliers-removed.png}
-  \caption{Predicted EF from 3D Reconstruction vs. Actual EF with EF < 0 removed}
-\end{figure}
-
-\noindent\textbf{Ejection Prediction}
-
-The predicted EFs of the test set from each model are shown in \textbf{Figure 6}. The RMSE with respect to 4-frame, 12-frames, and 26-frame model are: 7.1 (6.3 - 8.0), 6.6 (6.12 - 7.21), and 5.6 (5.0 - 6.2). As the number of frame increases, the RMSE reduces. Visually, the scatter plot is "hugging" closer to the diagonal line as the number of frame increases.
-
-\begin{figure} [H]
-  \centering
-\includegraphics[scale=0.45]{ef_preds.png}
-  \caption{Predicted EF vs Actual EF for each model}
-\end{figure}
-
-The ROC curves for each model predicting four different EF cutoff points in the test set are summarized in \textbf{Figure 7}. All three models follow the same trend, namely, they are better at predicting low EF cutoff points than high EF cutoff points. Similar to the observation above, the 26-frames model is almost consistently better at predicting every cutoff point compared with the 4-frame and the 12-frame models. However, at predicting EF cutoff point of 50, the 12-frame model slightly outperforms the 24-frame model with a margin of 1.2$\%$.
-
-\begin{figure} [H]
-  \centering
-\includegraphics[scale=0.45]{roc_4cutoff.png}
-  \caption{ROC curve for each model at four EF cutoff points}
-\end{figure}
-
-Finally, in terms of predicting clinically defined reduced ejection (EF < 55$\%$) \cite{hf}, the results are shown in \textbf{Figure 8}. The best AUC we have achieve in the test set is 0.972 from the 26-frame model. Compared to the original EchoNet paper, which achieved an AUC of 0.950, we slightly outperform the original paper by a margin of 2.2$\%$. Moreover, the 12-frame model achieves an AUC of 0.965, which also slightly outperforms the original paper by 1.5 $\%$. 
-
-\begin{figure} [H]
-  \centering
-\includegraphics[scale=0.45]{reEF_preds.png}
-  \caption{ROC curve for each model at predicting reduced ejection (EF < 55$\%)$}
-\end{figure}
-
-\section{Discussion}\label{sec4}
-
-Assumption of left ventricular shape. Our decision to simplify the 3D reconstruction algorithm by modeling it after an ellipsoid likely resulted in the high MSE score. This was due in part to the limited number of views (i.e. A4C and PSAX) versus the six standard views defined by the American Society of Echocardiography\cite{echoguidelines} and used by other 3D reconstruction algorithms\cite{pix2voxx,echoautosegcnn}. As mentioned earlier, the normal shape of the left ventricle is a prolate ellipsoid\cite{lvshape,rajan2016}, but patients with left ventricular dysfunction may have left ventricles that are more globular or spherical. The former typically represents more of the onset of left ventricular dysfunction and the latter of dilated cardiomyopathy\cite{rajan2016}. Since our data set had patients with normal and abnormal ejection fractions, this likely reflected in our MSE score. Further, the shape of the left ventricle, even if normal, isn't a perfect ellipsoid and thus our usage of an ellipsoid and circle likely increased the error in our prediction. 
-
- Upon plotting our results for predicted vs. actual EF values, it became apparent that our 3D reconstruction algorithm was predicting incorrect results, as the values were orders of magnitudes different and were also all negative, which would be implausible for an ejection fraction. Since there were only 163 values of the 3,133 (5.2\%) that were below 0, we removed them in favor of having a readable graph and mean squared error score. These findings suggest our 3D algorithm could be further optimized. 
-
-In our study, we combined two views (A4C and PSAX) to predict the EF, and the results is comparable (slightly outperforming) with the original paper, even with reduced frame sampling. The original paper sampled 32 frames; here we only sampled 4, 12, and 26 frames. We are not able to try the 32-frame model due to GPU RAM limits (see proof in appendix). According to our experiments, introducing multiple views of a 3D video may compensate the low frame number sampled for the training. This could be pragmatic when having limited GPU RAM access. 
-
-One technical caveat for EF prediction is: in our model, we aligned echo-cardiographs of A4C and PSAX views based on the starting point of the heart beat for each patient. However, the heart beats from A4C and PSAX views are not from the same exact heart beat, as the ultrasound device can only take one view at a time. This might introduce some unwarranted systematic bias to the training data.
-
-
-
-\section{Conclusions}\label{sec5}
-Comparing the 3D reconstruction approach and the concatenated video approach in predicting the EF, it is evident that the concatenated video approach has better performance. However, it could be interesting to gather an every greater variety of views of the heart to conduct more precise 3D reconstruction and then combine that model with the spatiotemporal CNN.
-
-Our spatiotemporal CNN model includes two views of the heart ultrasound and is able to achieve similar (slightly better) results compared to the original paper, even at low number of frames. This indicates, in general, that including additional angles of a 3D object may increase the performance of downstream tasks.
-
-In the future, an additional experiment we hope to implement,  given the inherently sparse availability of ground truth volume tracing data, is exploring semi-supervised methods for LV segmentation such as co-training, running segmentation models on A4C and PSAX views separately and using agreement between their predictions for fine-tuning. Additionally, we could implement self-supervised methods e.g. using inpainting as a pretext model for improved capture of the underlying ventricular structure and other anatomical features within the heart. 
-
-We also hope to explore extracting two other important features from the echocardiograph: the myocardium thickening of the left ventricle during each heart beat, and the mitral valve leaflets movement, particularly the distance between the e-point of the anterior leaflet to the interventricular septum. 
-
-\section{Code \& Data Availability}\label{sec5}
-
-All code related to this research can be found in this
-repository:  \href{https://github.com/ckunchur/cs235-project}{https://github.com/ckunchur/cs235-project}
-
-\section{Appendix}
-\begin{figure} [H]
-\begin{center}
-\begin{tabular}{ |c c| }
- \hline
- \multicolumn{2}{|c|}{Model Specs} \\
- \hline
- Number of epochs & 45 \\ 
- Learning rate & 1e-4 \\  
- Weight decay & 1e-4 \\   
- Learning rate step period & 15 \\
- Batch size & 8 \\
- \hline
+\begin{table}[h]
+\caption{Caption text}\label{tab1}%
+\begin{tabular}{@{}llll@{}}
+\toprule
+Column 1 & Column 2  & Column 3 & Column 4\\
+\midrule
+row 1    & data 1   & data 2  & data 3  \\
+row 2    & data 4   & data 5\footnotemark[1]  & data 6  \\
+row 3    & data 7   & data 8  & data 9\footnotemark[2]  \\
+\botrule
 \end{tabular}
-\end{center}
-  \caption{Spatiotemporal CNN Model Specs}
+\footnotetext{Source: This is an example of table footnote. This is an example of table footnote.}
+\footnotetext[1]{Example for a first table footnote. This is an example of table footnote.}
+\footnotetext[2]{Example for a second table footnote. This is an example of table footnote.}
+\end{table}
+
+\noindent
+The input format for the above table is as follows:
+
+%%=============================================%%
+%% For presentation purpose, we have included  %%
+%% \bigskip command. please ignore this.       %%
+%%=============================================%%
+\bigskip
+\begin{verbatim}
+\begin{table}[<placement-specifier>]
+\caption{<table-caption>}\label{<table-label>}%
+\begin{tabular}{@{}llll@{}}
+\toprule
+Column 1 & Column 2 & Column 3 & Column 4\\
+\midrule
+row 1 & data 1 & data 2	 & data 3 \\
+row 2 & data 4 & data 5\footnotemark[1] & data 6 \\
+row 3 & data 7 & data 8	 & data 9\footnotemark[2]\\
+\botrule
+\end{tabular}
+\footnotetext{Source: This is an example of table footnote. 
+This is an example of table footnote.}
+\footnotetext[1]{Example for a first table footnote.
+This is an example of table footnote.}
+\footnotetext[2]{Example for a second table footnote. 
+This is an example of table footnote.}
+\end{table}
+\end{verbatim}
+\bigskip
+%%=============================================%%
+%% For presentation purpose, we have included  %%
+%% \bigskip command. please ignore this.       %%
+%%=============================================%%
+
+\begin{table}[h]
+\caption{Example of a lengthy table which is set to full textwidth}\label{tab2}
+\begin{tabular*}{\textwidth}{@{\extracolsep\fill}lcccccc}
+\toprule%
+& \multicolumn{3}{@{}c@{}}{Element 1\footnotemark[1]} & \multicolumn{3}{@{}c@{}}{Element 2\footnotemark[2]} \\\cmidrule{2-4}\cmidrule{5-7}%
+Project & Energy & $\sigma_{calc}$ & $\sigma_{expt}$ & Energy & $\sigma_{calc}$ & $\sigma_{expt}$ \\
+\midrule
+Element 3  & 990 A & 1168 & $1547\pm12$ & 780 A & 1166 & $1239\pm100$\\
+Element 4  & 500 A & 961  & $922\pm10$  & 900 A & 1268 & $1092\pm40$\\
+\botrule
+\end{tabular*}
+\footnotetext{Note: This is an example of table footnote. This is an example of table footnote this is an example of table footnote this is an example of~table footnote this is an example of table footnote.}
+\footnotetext[1]{Example for a first table footnote.}
+\footnotetext[2]{Example for a second table footnote.}
+\end{table}
+
+\vfill\eject
+
+In case of double column layout, tables which do not fit in single column width should be set to full text width. For this, you need to use \verb+\begin{table*}+ \verb+...+ \verb+\end{table*}+ instead of \verb+\begin{table}+ \verb+...+ \verb+\end{table}+ environment. Lengthy tables which do not fit in textwidth should be set as rotated table. For this, you need to use \verb+\begin{sidewaystable}+ \verb+...+ \verb+\end{sidewaystable}+ instead of \verb+\begin{table*}+ \verb+...+ \verb+\end{table*}+ environment. This environment puts tables rotated to single column width. For tables rotated to double column width, use \verb+\begin{sidewaystable*}+ \verb+...+ \verb+\end{sidewaystable*}+.
+
+\begin{sidewaystable}
+\caption{Tables which are too long to fit, should be written using the ``sidewaystable'' environment as shown here}\label{tab3}
+\begin{tabular*}{\textheight}{@{\extracolsep\fill}lcccccc}
+\toprule%
+& \multicolumn{3}{@{}c@{}}{Element 1\footnotemark[1]}& \multicolumn{3}{@{}c@{}}{Element\footnotemark[2]} \\\cmidrule{2-4}\cmidrule{5-7}%
+Projectile & Energy	& $\sigma_{calc}$ & $\sigma_{expt}$ & Energy & $\sigma_{calc}$ & $\sigma_{expt}$ \\
+\midrule
+Element 3 & 990 A & 1168 & $1547\pm12$ & 780 A & 1166 & $1239\pm100$ \\
+Element 4 & 500 A & 961  & $922\pm10$  & 900 A & 1268 & $1092\pm40$ \\
+Element 5 & 990 A & 1168 & $1547\pm12$ & 780 A & 1166 & $1239\pm100$ \\
+Element 6 & 500 A & 961  & $922\pm10$  & 900 A & 1268 & $1092\pm40$ \\
+\botrule
+\end{tabular*}
+\footnotetext{Note: This is an example of table footnote this is an example of table footnote this is an example of table footnote this is an example of~table footnote this is an example of table footnote.}
+\footnotetext[1]{This is an example of table footnote.}
+\end{sidewaystable}
+
+\section{Figures}\label{sec6}
+
+As per the \LaTeX\ standards you need to use eps images for \LaTeX\ compilation and \verb+pdf/jpg/png+ images for \verb+PDFLaTeX+ compilation. This is one of the major difference between \LaTeX\ and \verb+PDFLaTeX+. Each image should be from a single input .eps/vector image file. Avoid using subfigures. The command for inserting images for \LaTeX\ and \verb+PDFLaTeX+ can be generalized. The package used to insert images in \verb+LaTeX/PDFLaTeX+ is the graphicx package. Figures can be inserted via the normal figure environment as shown in the below example:
+
+%%=============================================%%
+%% For presentation purpose, we have included  %%
+%% \bigskip command. please ignore this.       %%
+%%=============================================%%
+\bigskip
+\begin{verbatim}
+\begin{figure}[<placement-specifier>]
+\centering
+\includegraphics{<eps-file>}
+\caption{<figure-caption>}\label{<figure-label>}
+\end{figure}
+\end{verbatim}
+\bigskip
+%%=============================================%%
+%% For presentation purpose, we have included  %%
+%% \bigskip command. please ignore this.       %%
+%%=============================================%%
+
+\begin{figure}[h]%
+\centering
+\includegraphics[width=0.9\textwidth]{fig.eps}
+\caption{This is a widefig. This is an example of long caption this is an example of long caption  this is an example of long caption this is an example of long caption}\label{fig1}
 \end{figure}
 
-\begin{figure} [H]
-  \centering
-  \includegraphics[scale=0.1]{kmn.jpg}
-  \caption{Proof of GPU almost crashing while running the 26-frame model}
-\end{figure}
+In case of double column layout, the above format puts figure captions/images to single column width. To get spanned images, we need to provide \verb+\begin{figure*}+ \verb+...+ \verb+\end{figure*}+.
 
+For sample purpose, we have included the width of images in the optional argument of \verb+\includegraphics+ tag. Please ignore this. 
 
-\newpage
-\bibliographystyle{unsrt}
-\bibliography{references}
+\section{Algorithms, Program codes and Listings}\label{sec7}
 
+Packages \verb+algorithm+, \verb+algorithmicx+ and \verb+algpseudocode+ are used for setting algorithms in \LaTeX\ using the format:
+
+%%=============================================%%
+%% For presentation purpose, we have included  %%
+%% \bigskip command. please ignore this.       %%
+%%=============================================%%
+\bigskip
+\begin{verbatim}
+\begin{algorithm}
+\caption{<alg-caption>}\label{<alg-label>}
+\begin{algorithmic}[1]
+. . .
+\end{algorithmic}
+\end{algorithm}
+\end{verbatim}
+\bigskip
+%%=============================================%%
+%% For presentation purpose, we have included  %%
+%% \bigskip command. please ignore this.       %%
+%%=============================================%%
+
+You may refer above listed package documentations for more details before setting \verb+algorithm+ environment. For program codes, the ``verbatim'' package is required and the command to be used is \verb+\begin{verbatim}+ \verb+...+ \verb+\end{verbatim}+. 
+
+Similarly, for \verb+listings+, use the \verb+listings+ package. \verb+\begin{lstlisting}+ \verb+...+ \verb+\end{lstlisting}+ is used to set environments similar to \verb+verbatim+ environment. Refer to the \verb+lstlisting+ package documentation for more details.
+
+A fast exponentiation procedure:
+
+\lstset{texcl=true,basicstyle=\small\sf,commentstyle=\small\rm,mathescape=true,escapeinside={(*}{*)}}
+\begin{lstlisting}
+begin
+  for $i:=1$ to $10$ step $1$ do
+      expt($2,i$);  
+      newline() od                (*\textrm{Comments will be set flush to the right margin}*)
+where
+proc expt($x,n$) $\equiv$
+  $z:=1$;
+  do if $n=0$ then exit fi;
+     do if odd($n$) then exit fi;                 
+        comment: (*\textrm{This is a comment statement;}*)
+        $n:=n/2$; $x:=x*x$ od;
+     { $n>0$ };
+     $n:=n-1$; $z:=z*x$ od;
+  print($z$). 
+end
+\end{lstlisting}
+
+\begin{algorithm}
+\caption{Calculate $y = x^n$}\label{algo1}
+\begin{algorithmic}[1]
+\Require $n \geq 0 \vee x \neq 0$
+\Ensure $y = x^n$ 
+\State $y \Leftarrow 1$
+\If{$n < 0$}\label{algln2}
+        \State $X \Leftarrow 1 / x$
+        \State $N \Leftarrow -n$
+\Else
+        \State $X \Leftarrow x$
+        \State $N \Leftarrow n$
+\EndIf
+\While{$N \neq 0$}
+        \If{$N$ is even}
+            \State $X \Leftarrow X \times X$
+            \State $N \Leftarrow N / 2$
+        \Else[$N$ is odd]
+            \State $y \Leftarrow y \times X$
+            \State $N \Leftarrow N - 1$
+        \EndIf
+\EndWhile
+\end{algorithmic}
+\end{algorithm}
+
+%%=============================================%%
+%% For presentation purpose, we have included  %%
+%% \bigskip command. please ignore this.       %%
+%%=============================================%%
+\bigskip
+\begin{minipage}{\hsize}%
+\lstset{frame=single,framexleftmargin=-1pt,framexrightmargin=-17pt,framesep=12pt,linewidth=0.98\textwidth,language=pascal}% Set your language (you can change the language for each code-block optionally)
+%%% Start your code-block
+\begin{lstlisting}
+for i:=maxint to 0 do
+begin
+{ do nothing }
+end;
+Write('Case insensitive ');
+Write('Pascal keywords.');
+\end{lstlisting}
+\end{minipage}
+
+\section{Cross referencing}\label{sec8}
+
+Environments such as figure, table, equation and align can have a label
+declared via the \verb+\label{#label}+ command. For figures and table
+environments use the \verb+\label{}+ command inside or just
+below the \verb+\caption{}+ command. You can then use the
+\verb+\ref{#label}+ command to cross-reference them. As an example, consider
+the label declared for Figure~\ref{fig1} which is
+\verb+\label{fig1}+. To cross-reference it, use the command 
+\verb+Figure \ref{fig1}+, for which it comes up as
+``Figure~\ref{fig1}''. 
+
+To reference line numbers in an algorithm, consider the label declared for the line number 2 of Algorithm~\ref{algo1} is \verb+\label{algln2}+. To cross-reference it, use the command \verb+\ref{algln2}+ for which it comes up as line~\ref{algln2} of Algorithm~\ref{algo1}.
+
+\subsection{Details on reference citations}\label{subsec7}
+
+Standard \LaTeX\ permits only numerical citations. To support both numerical and author-year citations this template uses \verb+natbib+ \LaTeX\ package. For style guidance please refer to the template user manual.
+
+Here is an example for \verb+\cite{...}+: \cite{bib1}. Another example for \verb+\citep{...}+: \citep{bib2}. For author-year citation mode, \verb+\cite{...}+ prints Jones et al. (1990) and \verb+\citep{...}+ prints (Jones et al., 1990).
+
+All cited bib entries are printed at the end of this article: \cite{bib3}, \cite{bib4}, \cite{bib5}, \cite{bib6}, \cite{bib7}, \cite{bib8}, \cite{bib9}, \cite{bib10}, \cite{bib11}, \cite{bib12} and \cite{bib13}.
+
+\section{Examples for theorem like environments}\label{sec10}
+
+For theorem like environments, we require \verb+amsthm+ package. There are three types of predefined theorem styles exists---\verb+thmstyleone+, \verb+thmstyletwo+ and \verb+thmstylethree+ 
+
+%%=============================================%%
+%% For presentation purpose, we have included  %%
+%% \bigskip command. please ignore this.       %%
+%%=============================================%%
+\bigskip
+\begin{tabular}{|l|p{19pc}|}
+\hline
+\verb+thmstyleone+ & Numbered, theorem head in bold font and theorem text in italic style \\\hline
+\verb+thmstyletwo+ & Numbered, theorem head in roman font and theorem text in italic style \\\hline
+\verb+thmstylethree+ & Numbered, theorem head in bold font and theorem text in roman style \\\hline
+\end{tabular}
+\bigskip
+%%=============================================%%
+%% For presentation purpose, we have included  %%
+%% \bigskip command. please ignore this.       %%
+%%=============================================%%
+
+For mathematics journals, theorem styles can be included as shown in the following examples:
+
+\begin{theorem}[Theorem subhead]\label{thm1}
+Example theorem text. Example theorem text. Example theorem text. Example theorem text. Example theorem text. 
+Example theorem text. Example theorem text. Example theorem text. Example theorem text. Example theorem text. 
+Example theorem text. 
+\end{theorem}
+
+Sample body text. Sample body text. Sample body text. Sample body text. Sample body text. Sample body text. Sample body text. Sample body text.
+
+\begin{proposition}
+Example proposition text. Example proposition text. Example proposition text. Example proposition text. Example proposition text. 
+Example proposition text. Example proposition text. Example proposition text. Example proposition text. Example proposition text. 
+\end{proposition}
+
+Sample body text. Sample body text. Sample body text. Sample body text. Sample body text. Sample body text. Sample body text. Sample body text.
+
+\begin{example}
+Phasellus adipiscing semper elit. Proin fermentum massa
+ac quam. Sed diam turpis, molestie vitae, placerat a, molestie nec, leo. Maecenas lacinia. Nam ipsum ligula, eleifend
+at, accumsan nec, suscipit a, ipsum. Morbi blandit ligula feugiat magna. Nunc eleifend consequat lorem. 
+\end{example}
+
+Sample body text. Sample body text. Sample body text. Sample body text. Sample body text. Sample body text. Sample body text. Sample body text.
+
+\begin{remark}
+Phasellus adipiscing semper elit. Proin fermentum massa
+ac quam. Sed diam turpis, molestie vitae, placerat a, molestie nec, leo. Maecenas lacinia. Nam ipsum ligula, eleifend
+at, accumsan nec, suscipit a, ipsum. Morbi blandit ligula feugiat magna. Nunc eleifend consequat lorem. 
+\end{remark}
+
+Sample body text. Sample body text. Sample body text. Sample body text. Sample body text. Sample body text. Sample body text. Sample body text.
+
+\begin{definition}[Definition sub head]
+Example definition text. Example definition text. Example definition text. Example definition text. Example definition text. Example definition text. Example definition text. Example definition text. 
+\end{definition}
+
+Additionally a predefined ``proof'' environment is available: \verb+\begin{proof}+ \verb+...+ \verb+\end{proof}+. This prints a ``Proof'' head in italic font style and the ``body text'' in roman font style with an open square at the end of each proof environment. 
+
+\begin{proof}
+Example for proof text. Example for proof text. Example for proof text. Example for proof text. Example for proof text. Example for proof text. Example for proof text. Example for proof text. Example for proof text. Example for proof text. 
+\end{proof}
+
+Sample body text. Sample body text. Sample body text. Sample body text. Sample body text. Sample body text. Sample body text. Sample body text.
+
+\begin{proof}[Proof of Theorem~{\upshape\ref{thm1}}]
+Example for proof text. Example for proof text. Example for proof text. Example for proof text. Example for proof text. Example for proof text. Example for proof text. Example for proof text. Example for proof text. Example for proof text. 
+\end{proof}
+
+\noindent
+For a quote environment, use \verb+\begin{quote}...\end{quote}+
+\begin{quote}
+Quoted text example. Aliquam porttitor quam a lacus. Praesent vel arcu ut tortor cursus volutpat. In vitae pede quis diam bibendum placerat. Fusce elementum
+convallis neque. Sed dolor orci, scelerisque ac, dapibus nec, ultricies ut, mi. Duis nec dui quis leo sagittis commodo.
+\end{quote}
+
+Sample body text. Sample body text. Sample body text. Sample body text. Sample body text (refer Figure~\ref{fig1}). Sample body text. Sample body text. Sample body text (refer Table~\ref{tab3}). 
+
+\section{Methods}\label{sec11}
+
+Topical subheadings are allowed. Authors must ensure that their Methods section includes adequate experimental and characterization data necessary for others in the field to reproduce their work. Authors are encouraged to include RIIDs where appropriate. 
+
+\textbf{Ethical approval declarations} (only required where applicable) Any article reporting experiment/s carried out on (i)~live vertebrate (or higher invertebrates), (ii)~humans or (iii)~human samples must include an unambiguous statement within the methods section that meets the following requirements: 
+
+\begin{enumerate}[1.]
+\item Approval: a statement which confirms that all experimental protocols were approved by a named institutional and/or licensing committee. Please identify the approving body in the methods section
+
+\item Accordance: a statement explicitly saying that the methods were carried out in accordance with the relevant guidelines and regulations
+
+\item Informed consent (for experiments involving humans or human tissue samples): include a statement confirming that informed consent was obtained from all participants and/or their legal guardian/s
+\end{enumerate}
+
+If your manuscript includes potentially identifying patient/participant information, or if it describes human transplantation research, or if it reports results of a clinical trial then  additional information will be required. Please visit (\url{https://www.nature.com/nature-research/editorial-policies}) for Nature Portfolio journals, (\url{https://www.springer.com/gp/authors-editors/journal-author/journal-author-helpdesk/publishing-ethics/14214}) for Springer Nature journals, or (\url{https://www.biomedcentral.com/getpublished/editorial-policies\#ethics+and+consent}) for BMC.
+
+\section{Discussion}\label{sec12}
+
+Discussions should be brief and focused. In some disciplines use of Discussion or `Conclusion' is interchangeable. It is not mandatory to use both. Some journals prefer a section `Results and Discussion' followed by a section `Conclusion'. Please refer to Journal-level guidance for any specific requirements. 
+
+\section{Conclusion}\label{sec13}
+
+Conclusions may be used to restate your hypothesis or research question, restate your major findings, explain the relevance and the added value of your work, highlight any limitations of your study, describe future directions for research and recommendations. 
+
+In some disciplines use of Discussion or 'Conclusion' is interchangeable. It is not mandatory to use both. Please refer to Journal-level guidance for any specific requirements. 
+
+\backmatter
+
+\bmhead{Supplementary information}
+
+If your article has accompanying supplementary file/s please state so here. 
+
+Authors reporting data from electrophoretic gels and blots should supply the full unprocessed scans for key as part of their Supplementary information. This may be requested by the editorial team/s if it is missing.
+
+Please refer to Journal-level guidance for any specific requirements.
+
+\bmhead{Acknowledgments}
+
+Acknowledgments are not compulsory. Where included they should be brief. Grant or contribution numbers may be acknowledged.
+
+Please refer to Journal-level guidance for any specific requirements.
+
+\section*{Declarations}
+
+Some journals require declarations to be submitted in a standardised format. Please check the Instructions for Authors of the journal to which you are submitting to see if you need to complete this section. If yes, your manuscript must contain the following sections under the heading `Declarations':
+
+\begin{itemize}
+\item Funding
+\item Conflict of interest/Competing interests (check journal-specific guidelines for which heading to use)
+\item Ethics approval 
+\item Consent to participate
+\item Consent for publication
+\item Availability of data and materials
+\item Code availability 
+\item Authors' contributions
+\end{itemize}
+
+\noindent
+If any of the sections are not relevant to your manuscript, please include the heading and write `Not applicable' for that section. 
+
+%%===================================================%%
+%% For presentation purpose, we have included        %%
+%% \bigskip command. please ignore this.             %%
+%%===================================================%%
+\bigskip
+\begin{flushleft}%
+Editorial Policies for:
+
+\bigskip\noindent
+Springer journals and proceedings: \url{https://www.springer.com/gp/editorial-policies}
+
+\bigskip\noindent
+Nature Portfolio journals: \url{https://www.nature.com/nature-research/editorial-policies}
+
+\bigskip\noindent
+\textit{Scientific Reports}: \url{https://www.nature.com/srep/journal-policies/editorial-policies}
+
+\bigskip\noindent
+BMC journals: \url{https://www.biomedcentral.com/getpublished/editorial-policies}
+\end{flushleft}
+
+\begin{appendices}
+
+\section{Section title of first appendix}\label{secA1}
+
+An appendix contains supplementary information that is not an essential part of the text itself but which may be helpful in providing a more comprehensive understanding of the research problem or it is information that is too cumbersome to be included in the body of the paper.
+
+%%=============================================%%
+%% For submissions to Nature Portfolio Journals %%
+%% please use the heading ``Extended Data''.   %%
+%%=============================================%%
+
+%%=============================================================%%
+%% Sample for another appendix section			       %%
+%%=============================================================%%
+
+%% \section{Example of another appendix section}\label{secA2}%
+%% Appendices may be used for helpful, supporting or essential material that would otherwise 
+%% clutter, break up or be distracting to the text. Appendices can consist of sections, figures, 
+%% tables and equations etc.
+
+\end{appendices}
+
+%%===========================================================================================%%
+%% If you are submitting to one of the Nature Portfolio journals, using the eJP submission   %%
+%% system, please include the references within the manuscript file itself. You may do this  %%
+%% by copying the reference list from your .bbl file, paste it into the main manuscript .tex %%
+%% file, and delete the associated \verb+\bibliography+ commands.                            %%
+%%===========================================================================================%%
+
+\bibliography{sn-bibliography}% common bib file
+%% if required, the content of .bbl file can be included here once bbl is generated
+%%\input sn-article.bbl
 
 
 \end{document}
